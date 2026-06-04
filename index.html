@@ -22,13 +22,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 70px; /* فضای کافی برای نوار پایین */
             max-width: 480px;
             margin: 0 auto;
             position: relative;
         }
         
-        /* نوار بالای شناور */
+        /* نوار بالای شناور - تغییر به حالت پیش‌فرض بلاک برای کنترل با جاوااسکریپت */
         .top-fixed-bar {
             width: calc(100% - 30px);
             max-width: 450px;
@@ -74,7 +73,6 @@
             height: 100%;
             object-fit: cover;
             z-index: 1;
-            /* فید دوطرفه: هم از بالا محو می‌شود و هم از پایین قبل دکمه‌ها */
             mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 95%);
             -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 95%);
         }
@@ -103,7 +101,7 @@
         
         .container {
             width: 100%;
-            padding: 0 20px;
+            padding: 0 20px 70px 20px; /* اضافه شدن پدینگ پایین برای عدم تداخل با منو */
             z-index: 2;
         }
 
@@ -336,12 +334,12 @@
             width: fit-content;
         }
         
-        /* کانتینر فریم برای لود لینک‌ها در خود سایت */
+        /* اصلاح بخش آی‌فریم برای حداکثر اندازه و عدم تداخل با نوار پایین */
         #iframe-page {
             display: none;
             width: 100%;
-            height: calc(100vh - 120px);
-            margin-top: 10px;
+            height: calc(100vh - 60px); /* ارتفاع کل منهای ارتفاع منوی پایین */
+            padding: 0; /* حذف پدینگ اضافی برای پر کردن کل صفحه */
         }
 
         #appFrame {
@@ -358,13 +356,13 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 480px; /* قفل مطلق روی ابعاد موبایل */
+            max-width: 480px; 
             height: 60px;
-            background-color: #1a1a1a; /* همرنگ نوار بالا */
+            background-color: #1a1a1a; 
             border-top: 1px solid #333;
-            border-radius: 0px !important; /* گوشه‌های کاملا تیز */
+            border-radius: 0px !important; 
             display: flex;
-            flex-direction: row-reverse; /* چیدمان از راست به چپ */
+            flex-direction: row-reverse; 
             justify-content: space-around;
             align-items: center;
             z-index: 999;
@@ -403,7 +401,6 @@
             transition: all 0.2s ease;
         }
 
-        /* حالت فعال هر بخش در نوار پایین */
         .nav-item.active {
             color: #00ff88;
         }
@@ -447,7 +444,7 @@
 </head>
 <body>
 
-    <div class="top-fixed-bar">
+    <div class="top-fixed-bar" id="topFixedBar">
         <div class="top-bar-text">هوش مصنوعی صبح دانش</div>
     </div>
 
@@ -548,7 +545,7 @@
         </div>
     </div>
 
-    <div id="iframe-page" class="container">
+    <div id="iframe-page">
         <iframe id="appFrame" src=""></iframe>
     </div>
 
@@ -643,11 +640,13 @@
         const iframePage = document.getElementById('iframe-page');
         const appFrame = document.getElementById('appFrame');
         const navItems = document.querySelectorAll('.nav-item');
+        const topFixedBar = document.getElementById('topFixedBar');
 
         function clearActiveTabs() {
             navItems.forEach(item => item.classList.remove('active'));
         }
 
+        // اصلاح تابع نمایش بخش‌ها برای مدیریت نوار بالا
         function showSection(type, url = "") {
             mainPage.style.display = 'none';
             updatesPage.style.display = 'none';
@@ -655,9 +654,14 @@
 
             if (type === 'home') {
                 mainPage.style.display = 'block';
+                topFixedBar.style.display = 'flex'; // نمایش نوار بالا در خانه
             } else if (type === 'iframe') {
                 iframePage.style.display = 'block';
+                topFixedBar.style.display = 'none'; // مخفی کردن نوار بالا در صفحات دیگر
                 appFrame.src = url;
+            } else if (type === 'updates') {
+                updatesPage.style.display = 'block';
+                topFixedBar.style.display = 'none'; // مخفی کردن نوار بالا در صفحه اخبار
             }
             window.scrollTo(0, 0);
         }
@@ -696,15 +700,11 @@
 
         // مدیریت ناوبری بخش اخبار داخلی
         document.getElementById('showUpdates').addEventListener('click', function() {
-            mainPage.style.display = 'none';
-            updatesPage.style.display = 'block';
-            window.scrollTo(0, 0);
+            showSection('updates');
         });
 
         document.getElementById('backToMain').addEventListener('click', function() {
-            updatesPage.style.display = 'none';
-            mainPage.style.display = 'block';
-            window.scrollTo(0, 0);
+            showSection('home');
         });
 
         // مودال تصویرسازی
