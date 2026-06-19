@@ -1,0 +1,13 @@
+{
+  "background_color": "#000000",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "sobhedanesh ai",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "sd.ai",
+  "start_url": "/h-s-c-2",
+  "theme_color": "#000000",
+  "id": "com.sd.chatbot.ai",
+  "description": "sobhedanesh ai chat bot"
+}
