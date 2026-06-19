@@ -1,0 +1,25 @@
+{
+  "theme_color": "#18181b",
+  "background_color": "#18181b",
+  "display": "standalone",
+  "scope": "/h-s-c-2/",
+  "start_url": "/h-s-c-2/",
+  "name": "H S C 2 Chatbot",
+  "short_name": "HSC Chatbot",
+  "description": "This is an official AI Chatbot application for Sobhe Danesh.",
+  "id": "com.sd.chatbot.ai",
+  "icons": [
+    {
+      "src": "لوگو اندروید.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "لوگو اندروید.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
