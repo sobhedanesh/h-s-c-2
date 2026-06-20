@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.sd.chatbot.ai",
+        "sha256_cert_fingerprints": ["BD:58:B7:FD:FE:5C:E9:FA:76:24:DD:D9:40:DB:BA:4E:69:B8:69:FF:44:80:2A:EE:1F:AE:C8:9B:A9:56:6F:AA"]
+      }
+    }]
